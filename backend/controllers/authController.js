@@ -1,48 +1,72 @@
-
 const bcrypt = require('bcrypt');
+var db = require('../config/dbconnections');
 const jwt = require('jsonwebtoken');
 
+const secretKey = '123123123123asdasdkljqwheihasjkdhkdjfhiuhq983e12heijhaskjdkasbd812hyeijahsdkb182h3jaksd';
+
 const handleLogin = async (req, res) => {
-    const { email: email, password: password } = req.body;
-    if (!email || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
-
-    const foundUser = await User.findOne({ username: email }).exec();
-    if (!foundUser) return res.sendStatus(401); //Unauthorized 
-    // evaluate password 
-    const match = await bcrypt.compare(password, foundUser.password);
-    if (match) {
-        const roles = Object.values(foundUser.roles).filter(Boolean);
-        // create JWTs
-        const accessToken = jwt.sign(
-            {
-                "UserInfo": {
-                    "username": foundUser.username,
-                    "roles": roles
-                }
-            },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '10s' }
-        );
-        const refreshToken = jwt.sign(
-            { "username": foundUser.username },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
-        );
-        // Saving refreshToken with current user
-        foundUser.refreshToken = refreshToken;
-        const result = await foundUser.save();
-        console.log(result);
-        console.log(roles);
-
-        // Creates Secure Cookie with refresh token
-        res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
-
-        // Send authorization roles and access token to user
-        res.json({ roles, accessToken });
-
-    } else {
-        res.sendStatus(401);
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
     }
-}
+
+    const sql = "SELECT * FROM login WHERE username = ?";
+
+    db.query(sql, [email], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ message: "Internal Server Error" });
+        }
+
+        if (results.length > 0) {
+            const user = results[0];
+            const roles = user.role ? [user.role] : []; // Extract roles from the database, assuming a single role per user
+
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+                if (err) {
+                    console.error('Bcrypt error:', err);
+                    return res.status(500).json({ message: "Internal Server Error" });
+                }
+
+                if (isMatch) {
+                    const firstTimeLogin = !user.password_changed;
+
+                    const createAccessToken = () => jwt.sign(
+                        { email: user.username, roles: roles },
+                        secretKey,
+                        { expiresIn: '1h' }
+                    );
+
+                    const accessToken = createAccessToken();
+
+                    // Set the JWT as a cookie
+                    res.cookie('jwt', accessToken, {
+                        httpOnly: true,   // Accessible only by the web server
+                        secure: true,     // Use HTTPS
+                        sameSite: 'None', // Cross-site cookie
+                        maxAge: 60 * 60 * 1000 // 1 hour
+                    });
+
+                    if (firstTimeLogin) {
+                        const updateSql = "UPDATE login SET password_changed = TRUE WHERE username = ?";
+                        db.query(updateSql, [email], (updateErr) => {
+                            if (updateErr) {
+                                console.error('Update error:', updateErr);
+                                return res.status(500).json({ message: "Internal Server Error" });
+                            }
+                            return res.status(200).json({ roles, accessToken, firstTimeLogin });
+                        });
+                    } else {
+                        return res.status(200).json({ roles, accessToken, firstTimeLogin });
+                    }
+                } else {
+                    return res.status(401).json({ message: "Invalid email or password" });
+                }
+            });
+        } else {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+    });
+};
 
 module.exports = { handleLogin };
