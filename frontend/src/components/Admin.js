@@ -10,6 +10,7 @@ const Admin = () => {
                 <Link to="/Home">Home</Link>
             </div>
         </section>
+        
     )
 }
 

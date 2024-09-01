@@ -1,12 +1,15 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import AuthContext from './context/AuthProvider'; // Adjust path as needed
-import axios from 'axios';
+import axios from './api/axios';
 
 const PWD_RESET = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const Reset_URL = '/reset';
 
 function Reset() {
+    const location = useLocation();
     const { auth } = useContext(AuthContext);
-    const { email } = auth;  // Get email from context
+    const emailFromState = location.state?.email || auth.email; // Use email from state or context
     const userRef = useRef(null);
     const errRef = useRef(null);
 
@@ -38,17 +41,19 @@ function Reset() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const isValidPwd = PWD_RESET.test(pwd);
         if (!isValidPwd) {
             setErrMsg("Invalid Entry");
             return;
         }
-
+    
+        console.log('Sending request with:', { email: emailFromState });  // Debugging line
+    
         try {
             const response = await axios.post(
-                'http://localhost:7000/reset',
-                { email, password: pwd },
+                Reset_URL,
+                { email: emailFromState, password: pwd },
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
@@ -76,14 +81,14 @@ function Reset() {
             }
         }
     };
-
+    
     return (
         <>
             {success ? (
                 <section>
                     <h1>Password Reset Successfully!</h1>
                     <p>
-                        <a href="#">Home</a>
+                        <a href="/Home">Home</a>
                     </p>
                 </section>
             ) : (

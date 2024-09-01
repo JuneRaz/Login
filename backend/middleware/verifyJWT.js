@@ -9,7 +9,7 @@ const verifyJWT = (req, res, next) => {
     console.log(token)
     jwt.verify(
         token,
-        process.env.secretKey,
+        secretKey,
         (err, decoded) => {
             if (err) return res.sendStatus(403); //invalid token
             req.user = decoded.UserInfo.username;
