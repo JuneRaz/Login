@@ -5,9 +5,6 @@ import useAuth from '../hooks/useAuth';
         const { auth = { roles: [] } } = useAuth(); // Default to empty array
         const location = useLocation();
     
-        console.log('Auth:', auth);
-        console.log('Allowed Roles:', allowedRoles);
-    
         const userRoles = auth?.roles?.map(role => role.toString());
         const permittedRoles = allowedRoles.map(role => role.toString());
     

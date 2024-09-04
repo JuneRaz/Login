@@ -32,7 +32,6 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Form submitted. Email:", email, "Password:", password);
 
         try {
             const response = await axios.post(

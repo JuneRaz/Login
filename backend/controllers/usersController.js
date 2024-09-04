@@ -2,7 +2,7 @@ const db = require('../config/dbconnections'); // Your MySQL connection
 
 // Get all users
 const getAllUsers = async (req, res) => {
-    const sql = 'SELECT username FROM users';
+    const sql = 'SELECT username FROM login';
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -20,7 +20,7 @@ const getUser = async (req, res) => {
     const { username } = req.params;
     if (!username) return res.status(400).json({ message: 'Username required' });
 
-    const sql = 'SELECT username FROM users WHERE username = ?';
+    const sql = 'SELECT username FROM login WHERE username = ?';
     db.query(sql, [username], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -38,7 +38,7 @@ const deleteUser = async (req, res) => {
     const { username } = req.body;
     if (!username) return res.status(400).json({ message: 'Username required' });
 
-    const sqlFind = 'SELECT username FROM users WHERE username = ?';
+    const sqlFind = 'SELECT username FROM login WHERE username = ?';
     db.query(sqlFind, [username], (err, results) => {
         if (err) {
             console.error('Database error:', err);

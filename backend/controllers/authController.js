@@ -3,6 +3,7 @@ var db = require('../config/dbconnections');
 const jwt = require('jsonwebtoken');
 
 const secretKey = '123123123123asdasdkljqwheihasjkdhkdjfhiuhq983e12heijhaskjdkasbd812hyeijahsdkb182h3jaksd';
+const refreshSecretKey = '}iDm$-oJN_U:*??7)nB2Wm=<`9(2Ikp'; // Replace with your actual secret key for refresh tokens
 
 const handleLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -31,20 +32,34 @@ const handleLogin = async (req, res) => {
                 if (isMatch) {
                     const firstTimeLogin = !user.password_changed;
 
-                    const createAccessToken = () => jwt.sign(
+                    // Create Access Token with 10 seconds expiration
+                    const accessToken = jwt.sign(
                         { email: user.username, roles: roles },
                         secretKey,
-                        { expiresIn: '1h' }
+                        { expiresIn: '10s' }
                     );
 
-                    const accessToken = createAccessToken();
+                    // Create Refresh Token with 1 day expiration
+                    const refreshToken = jwt.sign(
+                        { email: user.username, roles: roles },
+                        refreshSecretKey,
+                        { expiresIn: '10s' }
+                    );
 
-                    // Set the JWT as a cookie
+                    // Set the Access Token as a cookie
                     res.cookie('jwt', accessToken, {
                         httpOnly: true,   // Accessible only by the web server
                         secure: true,     // Use HTTPS
                         sameSite: 'None', // Cross-site cookie
-                        maxAge: 60 * 60 * 1000 // 1 hour
+                        maxAge: 10 * 1000 // 10 seconds
+                    });
+
+                    // Set the Refresh Token as a cookie
+                    res.cookie('refreshToken', refreshToken, {
+                        httpOnly: true,
+                        secure: true,
+                        sameSite: 'None',
+                        maxAge: 10 * 1000 // 1 day
                     });
 
                     if (firstTimeLogin) {
@@ -68,10 +83,5 @@ const handleLogin = async (req, res) => {
         }
     });
 };
-
-
-
-
-
 
 module.exports = { handleLogin };
