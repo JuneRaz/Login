@@ -1,26 +1,30 @@
-const User = require('../model/User');
+const db = require('../config/dbconnections');// Assuming you have a database configuration file for MySQL
 
 const handleLogout = async (req, res) => {
-    // On client, also delete the accessToken
-
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(204); //No content
+    if (!cookies?.jwt) return res.sendStatus(204); // No content
     const refreshToken = cookies.jwt;
 
-    // Is refreshToken in db?
-    const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser) {
+    try {
+        // Check if refreshToken exists in the database
+        const [foundUser] = await db.execute('SELECT * FROM users WHERE refreshToken = ?', [refreshToken]);
+
+        if (foundUser.length === 0) {
+            // If no user found, clear the cookie and send status 204
+            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+            return res.sendStatus(204); // No content
+        }
+
+        // Clear the refreshToken in the database
+        await db.execute('UPDATE users SET refreshToken = ? WHERE refreshToken = ?', ['', refreshToken]);
+
+        // Clear the cookie on the client
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-        return res.sendStatus(204);
+        return res.sendStatus(204); // No content
+    } catch (err) {
+        console.error('Error logging out user:', err);
+        return res.sendStatus(500); // Internal server error
     }
+};
 
-    // Delete refreshToken in db
-    foundUser.refreshToken = '';
-    const result = await foundUser.save();
-    console.log(result);
-
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-    res.sendStatus(204);
-}
-
-module.exports = { handleLogout }
+module.exports = { handleLogout };

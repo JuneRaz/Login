@@ -1,4 +1,3 @@
-
 import Login from './components/Login';
 import './App.css';
 import Home from './components/Home';
@@ -12,6 +11,8 @@ import Reset from './reset';
 import Unauthorized from './components/Unauthorized';
 import { Routes, Route } from 'react-router-dom';
 import PersistLogin from './components/PersistLogin';
+
+ // Adjust the path
 
 const ROLES = {
   'User': 2001,
@@ -30,19 +31,24 @@ function App() {
         <Route path="reset" element={<Reset />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         
-          <Route element = {<PersistLogin/>}>
-          <Route element={<RequireAuth allowedRoles={[1994,2001]}/>}>
-          <Route path="home" element={<Home />} />
+        {/* protected routes with persist login */}
+        <Route element={<PersistLogin />}>
+          {/* Protected routes for both User and Editor roles */}
+          <Route element={<RequireAuth allowedRoles={[1994, 2001]}/>}>
+            <Route path="home" element={<Home />} />
           </Route>
+
+          {/* Protected routes for Editor only */}
           <Route element={<RequireAuth allowedRoles={[1994]}/>}>
-          <Route path="admin" element={<Admin />} />
+            <Route path="admin" element={<Admin />} />
           </Route>
+
+          {/* Protected routes for User only */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
-          <Route path="user" element={<User />} />
+            <Route path="user" element={<User />} />
+            
           </Route>
-          </Route>
-      
-        
+        </Route>
 
         {/* catch all */}
         <Route path="*" element={<Missing />} />

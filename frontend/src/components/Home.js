@@ -1,16 +1,21 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
+import useLogout from "../hooks/useLogout"; // Import the useLogout hook
 import AuthContext from "../context/AuthProvider";
 
 const Home = () => {
     const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
+    const logout = useLogout(); // Get the logout function from the custom hook
 
-    const logout = async () => {
-        // if used in more components, this should be in context 
-        // axios to /logout endpoint 
-        setAuth({});
-        navigate('/linkpage');
+    const handleLogout = async () => {
+        try {
+            await logout(); // Call the logout function to clear backend state
+            setAuth({}); // Clear the authentication state
+            navigate('/linkpage'); // Redirect to the LinkPage after logout
+        } catch (err) {
+            console.error('Logout failed', err);
+        }
     }
 
     return (
@@ -24,10 +29,10 @@ const Home = () => {
             <Link to="/admin">Go to the Admin page</Link>
          
             <div className="flexGrow">
-                <button onClick={logout}>Sign Out</button>
+                <button onClick={handleLogout}>Sign Out</button>
             </div>
         </section>
-    )
+    );
 }
 
-export default Home
+export default Home;

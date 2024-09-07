@@ -29,7 +29,12 @@ app.use('/refresh', require('./routes/refresh'));
 app.use('/reset', require('./routes/authRes'));
 app.use('/auth', require('./routes/auth'));
 
-//app.use('/logout', require('./routes/logout'));
+app.use('/logout', require('./routes/logout'));
+// app.post('/logout', (req, res) => {
+//     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+//     return res.status(200).json({ message: "Logout successful" });
+// });
+
 
 
 app.use(verifyJWT);
