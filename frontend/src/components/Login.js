@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const LOGIN_URL = '/auth';
 
 function Login() {
-    const { setAuth } = useAuth();
+    const { setAuth, persist, setPersist } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/home"; // Default redirect to "/home"
@@ -82,6 +82,14 @@ function Login() {
             errRef.current.focus();
         }
     };
+    const togglePersist = () => {
+        setPersist(prev => !prev);
+    }
+
+    useEffect(() => {
+        localStorage.setItem("persist", persist);
+    }, [persist])
+
 
     return (
         <section className="login-container">
@@ -120,7 +128,7 @@ function Login() {
                         />
                     </div>
                     <div>
-                        <button className="btn btn-success w-100">Login</button>
+                        <button className="btn btn-success w-100">Login</button>        
                     </div>
                 </form>
             </div>
