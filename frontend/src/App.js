@@ -12,6 +12,7 @@ import Reset from './reset';
 import Unauthorized from './components/Unauthorized';
 import { Routes, Route } from 'react-router-dom';
 import PersistLogin from './components/PersistLogin';
+
 const ROLES = {
   'User': 2001,
   'Editor': 1994,
@@ -29,7 +30,7 @@ function App() {
         <Route path="reset" element={<Reset />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         
-
+          <Route element = {<PersistLogin/>}>
           <Route element={<RequireAuth allowedRoles={[1994,2001]}/>}>
           <Route path="home" element={<Home />} />
           </Route>
@@ -38,6 +39,7 @@ function App() {
           </Route>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
           <Route path="user" element={<User />} />
+          </Route>
           </Route>
       
         

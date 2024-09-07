@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-var db = require('../config/dbconnections');
+const db = require('../config/dbconnections');
 const jwt = require('jsonwebtoken');
 
 const secretKey = '123123123123asdasdkljqwheihasjkdhkdjfhiuhq983e12heijhaskjdkasbd812hyeijahsdkb182h3jaksd';
@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
 
         if (results.length > 0) {
             const user = results[0];
-            const roles = user.role ? [user.role] : []; // Extract roles from the database, assuming a single role per user
+            const roles = user.role ? [user.role] : [];
 
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) {
@@ -32,48 +32,44 @@ const handleLogin = async (req, res) => {
                 if (isMatch) {
                     const firstTimeLogin = !user.password_changed;
 
-                    // Create Access Token with 10 seconds expiration
                     const accessToken = jwt.sign(
                         { email: user.username, roles: roles },
                         secretKey,
                         { expiresIn: '10s' }
                     );
 
-                    // Create Refresh Token with 1 day expiration
                     const refreshToken = jwt.sign(
                         { email: user.username, roles: roles },
                         refreshSecretKey,
-                        { expiresIn: '10s' }
+                        { expiresIn: '7d' } // Change to 7 days for the refresh token
                     );
 
-                    // Set the Access Token as a cookie
-                    res.cookie('jwt', accessToken, {
-                        httpOnly: true,   // Accessible only by the web server
-                        secure: true,     // Use HTTPS
-                        sameSite: 'None', // Cross-site cookie
-                        maxAge: 10 * 1000 // 10 seconds
-                    });
+                    // Store the refresh token in the database
+                    const updateSql = "UPDATE login SET refresh_token = ?, password_changed = TRUE WHERE username = ?";
+                    db.query(updateSql, [refreshToken, email], (updateErr) => {
+                        if (updateErr) {
+                            console.error('Update error:', updateErr);
+                            return res.status(500).json({ message: "Internal Server Error" });
+                        }
 
-                    // Set the Refresh Token as a cookie
-                    res.cookie('refreshToken', refreshToken, {
-                        httpOnly: true,
-                        secure: true,
-                        sameSite: 'None',
-                        maxAge: 10 * 1000 // 1 day
-                    });
+                        // Send the access token and refresh token as cookies
+                        res.cookie('accessToken', accessToken, {
+                            httpOnly: true,
+                            secure: true, // Secure only in production
+                            sameSite: 'None',
+                            maxAge: 10 * 1000 // 10 seconds
 
-                    if (firstTimeLogin) {
-                        const updateSql = "UPDATE login SET password_changed = TRUE WHERE username = ?";
-                        db.query(updateSql, [email], (updateErr) => {
-                            if (updateErr) {
-                                console.error('Update error:', updateErr);
-                                return res.status(500).json({ message: "Internal Server Error" });
-                            }
-                            return res.status(200).json({ roles, accessToken, firstTimeLogin });
                         });
-                    } else {
+
+                        res.cookie('refreshToken', refreshToken, {
+                            httpOnly: true,
+                            secure: true, // Secure only in production
+                            sameSite: 'None',
+                            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                        });
+
                         return res.status(200).json({ roles, accessToken, firstTimeLogin });
-                    }
+                    });
                 } else {
                     return res.status(401).json({ message: "Invalid email or password" });
                 }
