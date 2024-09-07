@@ -41,7 +41,7 @@ const handleLogin = async (req, res) => {
                     const refreshToken = jwt.sign(
                         { email: user.username, roles: roles },
                         refreshSecretKey,
-                        { expiresIn: '7d' } // Change to 7 days for the refresh token
+                        { expiresIn: '1d' } // Change to 7 days for the refresh token
                     );
 
                     // Store the refresh token in the database
@@ -65,7 +65,7 @@ const handleLogin = async (req, res) => {
                             httpOnly: true,
                             secure: true, // Secure only in production
                             sameSite: 'None',
-                            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                            maxAge: 1 * 24 * 60 * 60 * 1000 // 1 day
                         });
 
                         return res.status(200).json({ roles, accessToken, firstTimeLogin });

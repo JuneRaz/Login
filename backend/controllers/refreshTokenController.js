@@ -27,7 +27,7 @@ const handleRefreshToken = (req, res) => {
                 roles: roles
             },
             secretKey,
-            { expiresIn: '1hr' } // Adjust the expiration time as needed
+            { expiresIn: '1d' } // Adjust the expiration time as needed
         );
 
         res.json({ roles, accessToken });

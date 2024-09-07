@@ -7,9 +7,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const LOGIN_URL = '/auth';
 
 function Login() {
-    const { setAuth, persist, setPersist } = useAuth();
+    const { setAuth, setPersist } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const [rememberMe, setRememberMe] = useState(false);
     const from = location.state?.from?.pathname || "/home"; // Default redirect to "/home"
 
     const userRef = useRef();
@@ -64,7 +65,7 @@ function Login() {
                 console.log('Redirecting to:', from);
                 navigate(from, { replace: true });
             }
-
+            setPersist(rememberMe);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -82,14 +83,6 @@ function Login() {
             errRef.current.focus();
         }
     };
-    const togglePersist = () => {
-        setPersist(prev => !prev);
-    }
-
-    useEffect(() => {
-        localStorage.setItem("persist", persist);
-    }, [persist])
-
 
     return (
         <section className="login-container">
@@ -128,6 +121,8 @@ function Login() {
                         />
                     </div>
                     <div>
+                        <input type="checkbox" checked={rememberMe} onChange={() => setRememberMe(prev => !prev)} />
+                        <label>Remember Me</label>
                         <button className="btn btn-success w-100">Login</button>        
                     </div>
                 </form>
