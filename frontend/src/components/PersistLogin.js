@@ -9,45 +9,43 @@ const PersistLogin = () => {
     const { auth, persist } = useAuth();
 
     useEffect(() => {
-        console.log('useEffect triggered');
-        console.log('Current auth state:', auth);
-        console.log('Persist value:', persist);
+        let isMounted = true;
 
         const verifyRefreshToken = async () => {
             try {
-                const newAccessToken = await refresh();
-                console.log("New Access Token from refresh:", newAccessToken);
-            } catch (err) {
-                console.error("Error during token refresh:", err);
-            } finally {
-                setIsLoading(false);
+                const response = await refresh();
+                console.log('Refresh response:', response);
+            }
+            catch (err) {
+                console.error(err);
+            }
+            finally {
+                isMounted && setIsLoading(false);
             }
         }
 
-        if (!auth?.accessToken && persist) {
-            console.log('No access token found, trying to refresh...');
-            verifyRefreshToken();
-        } else {
-            console.log('Access token already present or persist is false');
-            setIsLoading(false);
-        }
-    }, [auth, persist, refresh]);
+        // persist added here AFTER tutorial video
+        // Avoids unwanted call to verifyRefreshToken
+        !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
+
+        return () => isMounted = false;
+    }, [])
 
     useEffect(() => {
-        console.log(`isLoading: ${isLoading}`);
-        console.log(`Access Token: ${JSON.stringify(auth?.accessToken)}`);
-    }, [isLoading, auth?.accessToken]);
+        console.log(`isLoading: ${isLoading}`)
+        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
+    }, [isLoading])
 
     return (
         <>
             {!persist
-                ? <Outlet /> // If persist is false, just render the child routes
+                ? <Outlet />
                 : isLoading
                     ? <p>Loading...</p>
-                    : <Outlet /> // If loading is complete, render child routes
+                    : <Outlet />
             }
         </>
-    );
+    )
 }
 
-export default PersistLogin;
+export default PersistLogin

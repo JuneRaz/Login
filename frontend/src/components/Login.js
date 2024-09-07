@@ -7,10 +7,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const LOGIN_URL = '/auth';
 
 function Login() {
-    const { setAuth, setPersist } = useAuth();
+    const { setAuth,setPersist } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const [rememberMe, setRememberMe] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false); 
     const from = location.state?.from?.pathname || "/home"; // Default redirect to "/home"
 
     const userRef = useRef();
@@ -65,7 +65,8 @@ function Login() {
                 console.log('Redirecting to:', from);
                 navigate(from, { replace: true });
             }
-            setPersist(rememberMe);
+            setPersist(rememberMe); 
+
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -83,6 +84,7 @@ function Login() {
             errRef.current.focus();
         }
     };
+ 
 
     return (
         <section className="login-container">
