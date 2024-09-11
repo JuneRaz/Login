@@ -224,3 +224,12 @@ button:hover {
 .HomeDesign button:hover {
     background-color: #c82333;
 }
+
+
+
+@media (max-width: 768px) {
+    .login-form {
+        padding: 1.5rem;
+        width: 90%;
+    }
+}

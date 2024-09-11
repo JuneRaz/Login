@@ -1,0 +1,86 @@
+:root {
+    --background: #1a1a2e;
+    --color: #ffffff;
+    --primary-color: #0f3460;
+}
+
+.form-container {
+    border: 1px solid hsla(0, 0%, 65%, 0.158);
+    box-shadow: 0 0 36px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    padding: 2rem;
+    
+    
+}
+
+/* Form elements styling */
+.RegistrationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between form fields */
+    
+    background: var(--background); /* Ensure background is dark */
+}
+
+.RegistrationForm div {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between label and input */
+}
+
+.RegistrationForm label {
+    font-size: 16px;
+    color: var(--color);
+    width: 150px; /* Fixed width for alignment */
+}
+.RegistrationForm h2 {
+    font-size: 40px;
+    color: var(--color);
+    width: 150px; /* Fixed width for alignment */
+}
+.RegistrationForm input {
+    padding: 14.5px;
+    width: 100%;
+    color: var(--color);
+    outline: none;
+    background-color: rgba(145, 145, 145, 0.1);
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    font-size: 15px;
+    backdrop-filter: blur(15px);
+}
+
+.RegistrationForm input:focus {
+    box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.2);
+    animation: wobble 0.3s ease-in;
+}
+
+.RegistrationForm button {
+    background-color: var(--primary-color);
+    color: var(--color);
+    padding: 13px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.1s ease-in-out;
+    border: none;
+}
+
+.RegistrationForm button:hover {
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+}
+
+/* Ensure consistent styling for the Paper component */
+.MuiPaper-root {
+    background: var(--background);
+}

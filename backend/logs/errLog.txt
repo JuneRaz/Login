@@ -3,3 +3,6 @@
 20240905	00:57:09	ceecd83a-9260-485d-8be4-3b0635ab9a7d	Error: ENOENT: no such file or directory, stat 'C:\Users\Junmar flores\Desktop\anada one\Login\backend\views\404.html'
 20240905	00:59:09	1a8c5fe5-731f-450d-b65a-45492ec1e0b1	Error: ENOENT: no such file or directory, stat 'C:\Users\Junmar flores\Desktop\anada one\Login\backend\views\404.html'
 20240907	13:39:54	cdc61cbe-b3c6-4527-a96f-26b931957d41	ReferenceError: decoded is not defined
+20240907	21:08:42	4e8ef9d2-effd-4261-844c-e0be68f51c1b	Error: Not allowed by CORS
+20240907	21:09:21	64dddc9b-946e-4de6-a97a-33e9a34846d1	Error: Not allowed by CORS
+20240911	08:13:34	ee489a8e-0680-4b7b-9204-b0267208b436	ReferenceError: con is not defined

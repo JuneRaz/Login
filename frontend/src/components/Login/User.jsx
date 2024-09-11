@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom"
-import Users from './Users';
+import React from 'react';
+import Users from "./Users"
 
-const Admin = () => {
+const User = () => {
     return (
         <section>
-            <h1>Admins Page</h1>
+            <h1>User Page</h1>
             <br />
-            <Users />
-            <br />
-            <p>You must have been assigned an Admin role.</p>
+            <p>You must have been assigned a User role.</p>
             <div className="flexGrow">
                 <Link to="/Home">Home</Link>
             </div>
         </section>
-        
     )
 }
 
-export default Admin
+export default User;

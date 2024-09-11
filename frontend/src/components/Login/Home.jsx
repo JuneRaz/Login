@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
-import useLogout from "../hooks/useLogout"; // Import the useLogout hook
-import AuthContext from "../context/AuthProvider";
+import useLogout from "../../hooks/useLogout"; // Import the useLogout hook
+import AuthContext from "../../context/AuthProvider";
 
 const Home = () => {
     const { setAuth } = useContext(AuthContext);
@@ -24,7 +24,7 @@ const Home = () => {
             <br />
             <p>You are logged in!</p>
             <br />
-            <Link to="/user">Go to the Editor page</Link>
+            <Link to="/map">Map</Link>
             <br />
             <Link to="/admin">Go to the Admin page</Link>
          
