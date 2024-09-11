@@ -31,6 +31,10 @@ app.use(userRouter);
 app.use('/reset', require('./routes/authRes'));
 app.use('/auth', require('./routes/auth'));
 
+const mapRouter = require('./routes/mapRoutes'); // Import the MapRoute module
+app.use(mapRouter);
+
+
 app.use('/logout', require('./routes/logout'));
 // app.post('/logout', (req, res) => {
 //     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });

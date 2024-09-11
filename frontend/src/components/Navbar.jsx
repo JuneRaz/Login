@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+
 import { useTheme } from '@mui/material/styles';
 
 // TODO: Import the .env file
@@ -14,7 +15,7 @@ function Home() {
     const theme =useTheme();
     return (
           <Box sx={{ flexGrow: 1 }}>
-          
+          <AppBar position="static" style={{color: theme.palette.primary.main, backgroundColor:theme.palette.background.default}}>
             <Toolbar>
               <IconButton
                 size="large"
@@ -31,22 +32,22 @@ function Home() {
                 </Link>
               </Typography>
               <Link to='/Home'>
-                <Button color='inherit' style={{color:'white'}}>Home</Button>
+                <Button color='inherit' style={{color:'inherit'}}>Home</Button>
               </Link>
               <Link to='/map'>
-                <Button color='inherit' style={{color:'white'}}>Map</Button>
+                <Button color='inherit' style={{color:'inherit'}}>Map</Button>
               </Link>
               <Link to='/login'>
-                <Button color='inherit' style={{color:'white'}}>Login</Button>
+                <Button color='inherit' style={{color:'inherit'}}>Login</Button>
               </Link>
               <Link to='/signup'>
-                <Button color='inherit' style={{color:'white'}}>Signup</Button>
+                <Button color='inherit' style={{color:'inherit'}}>Signup</Button>
               </Link>
               <Link to='/test'>
-                <Button color='inherit' style={{color:'white'}}>Test</Button>
+                <Button color='inherit' style={{color:'inherit'}}>Test</Button>
               </Link>
             </Toolbar>
-          
+          </AppBar>
         </Box>
     );
   }
