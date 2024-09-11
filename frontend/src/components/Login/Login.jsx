@@ -78,7 +78,7 @@ function Login() {
             <div className="login-container">
                 <div className="circle circle-one"></div>
                 <div className="form-container">
-                    <img src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png" alt="illustration" className="illustration" />
+                    
                     <h1 className="opacity">LOGIN</h1>
                     <form onSubmit={handleSubmit}>
                         <p
@@ -128,8 +128,8 @@ function Login() {
                         
                     </form>
                     <div className="register-forget opacity">
-                        <a href="/signup">REGISTER</a>
-                        <a href="">FORGOT PASSWORD</a>
+                        <a href="/signup" >Register  </a>
+                        <a href="">Forgot Password</a>
                     </div>
                 </div>
                 <div className="circle circle-two"></div>

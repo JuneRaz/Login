@@ -32,19 +32,19 @@ function Home() {
                 </Link>
               </Typography>
               <Link to='/Home'>
-                <Button color='inherit' style={{color:'inherit'}}>Home</Button>
+                <Button color='inherit' style={{color:'black'}}>Home</Button>
               </Link>
               <Link to='/map'>
-                <Button color='inherit' style={{color:'inherit'}}>Map</Button>
+                <Button color='inherit' style={{color:'black'}}>Map</Button>
               </Link>
               <Link to='/login'>
-                <Button color='inherit' style={{color:'inherit'}}>Login</Button>
+                <Button color='inherit' style={{color:'black'}}>Login</Button>
               </Link>
               <Link to='/signup'>
-                <Button color='inherit' style={{color:'inherit'}}>Signup</Button>
+                <Button color='inherit' style={{color:'black'}}>Signup</Button>
               </Link>
               <Link to='/test'>
-                <Button color='inherit' style={{color:'inherit'}}>Test</Button>
+                <Button color='inherit' style={{color:'black'}}>Test</Button>
               </Link>
             </Toolbar>
           </AppBar>
