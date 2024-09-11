@@ -21,7 +21,7 @@ import Test from './components/Test';
 import MapContainer from '../../../../webpages/Flood-monitoring-system/client/src/components/Map/Map';
 import RegistrationForm from './components/Register/Signup'; 
 import RegistrationOtp from './components/Register/SignupOTP';
-//import './register.css'
+import './register.css'
  // Adjust the path
 
 const ROLES = {

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Grid, Paper, Avatar } from '@mui/material';
+import { Grid, Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -43,65 +44,59 @@ const RegistrationForm = () => {
       });
   };
 
-  const paperStyle = {
-    padding: 20,
-    height: 'auto',
-    width: 400,
-    margin: '20px auto',
-  };
-
   return (
-    <div className='Form'>
-      <Grid>
-        <Paper elevation={10} style={paperStyle} className="form-container">
-          <form className='RegistrationForm'>
-            <Avatar><AppRegistrationOutlinedIcon color="primary" /></Avatar>
-            <h2>Registration</h2>
-            <div>
-              <label>Email:</label>
-              <input
-                type="email"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div>
-              <label>Number:</label>
-              <input
-                type="text"
-                name="number"
-                value={formData.number}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          
-            <div>
-              <label>Password:</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div>
-              <label>Confirm Password:</label>
-              <input
-                type="password"
-                name="passwordConfirm"
-                value={formData.passwordConfirm}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <Button onClick={handleSubmit} variant="contained" color="primary">Submit</Button>
-          </form>
-        </Paper>
-      </Grid>
+    <div className="container">
+      <div className="register-container">
+        <div className="circle circle-one"></div>
+        <div className="circle circle-two"></div>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <Avatar className="avatar-icon">
+            <AppRegistrationOutlinedIcon color="primary" />
+          </Avatar>
+          <h2>Registration</h2>
+          <div>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="number"
+              placeholder="Number"
+              value={formData.number}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              name="passwordConfirm"
+              placeholder="Confirm Password"
+              value={formData.passwordConfirm}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <Button type="submit" variant="contained" color="primary">Submit</Button>
+        </form>
+      </div>
       <ToastContainer />
     </div>
   );

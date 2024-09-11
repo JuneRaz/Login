@@ -2074,3 +2074,7 @@
 20240911	08:45:19	e3b4ab59-3c4e-4ada-82a9-e48ddc5c2227	POST	http://localhost:3000	/sendotp
 20240911	08:45:52	6373d5e3-16d1-460c-91bf-40572fd1ce85	OPTIONS	http://localhost:3000	/validateotp/496268
 20240911	08:45:52	3b1b90c3-9f0c-4767-9297-2263f978b54a	POST	http://localhost:3000	/validateotp/496268
+20240911	09:25:42	d1b5e0d5-e09a-4584-a346-e2df311cbf97	OPTIONS	http://localhost:3000	/sendotp
+20240911	09:25:42	60669df8-2488-41f5-ba42-99a86d6918e3	POST	http://localhost:3000	/sendotp
+20240911	09:25:53	d21a7c8b-0096-4746-9518-69ae457e1bf2	OPTIONS	http://localhost:3000	/validateotp/493732
+20240911	09:25:53	a67bf3c1-b405-4301-b065-19b83279197e	POST	http://localhost:3000	/validateotp/493732

@@ -4,48 +4,64 @@
     --primary-color: #0f3460;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "poppins", sans-serif;
+    background: var(--background);
+    color: var(--color);
+    letter-spacing: 1px;
+    transition: background 0.2s ease;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-container {
+    position: relative;
+    width: 28rem; /* Increased width */
+    max-width: 90%; /* Ensure responsiveness */
+}
+
 .form-container {
     border: 1px solid hsla(0, 0%, 65%, 0.158);
     box-shadow: 0 0 36px 1px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     backdrop-filter: blur(20px);
     z-index: 99;
-    padding: 2rem;
-    
-    
+    padding: 2.5rem; /* Increased padding */
+    width: 100%; /* Ensure it takes the full width of register-container */
 }
 
-/* Form elements styling */
-.RegistrationForm {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Space between form fields */
-    
-    background: var(--background); /* Ensure background is dark */
-}
-
-.RegistrationForm div {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* Space between label and input */
-}
-
-.RegistrationForm label {
-    font-size: 16px;
-    color: var(--color);
-    width: 150px; /* Fixed width for alignment */
-}
-.RegistrationForm h2 {
-    font-size: 40px;
-    color: var(--color);
-    width: 150px; /* Fixed width for alignment */
-}
-.RegistrationForm input {
+.register-container form input {
+    display: block;
     padding: 14.5px;
     width: 100%;
+    margin: 1.5rem 0; /* Increased margin between inputs */
     color: var(--color);
     outline: none;
-    background-color: rgba(145, 145, 145, 0.1);
+    background-color: rgba(145, 145, 145, 0.1); /* Adjusted for transparency */
     border: none;
     border-radius: 5px;
     font-weight: 500;
@@ -54,14 +70,15 @@
     backdrop-filter: blur(15px);
 }
 
-.RegistrationForm input:focus {
+.register-container form input:focus {
     box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.2);
     animation: wobble 0.3s ease-in;
 }
 
-.RegistrationForm button {
+.register-container form button {
     background-color: var(--primary-color);
     color: var(--color);
+    display: block;
     padding: 13px;
     border-radius: 5px;
     outline: none;
@@ -70,17 +87,81 @@
     font-weight: bold;
     width: 100%;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-bottom: 2rem;
     transition: all 0.1s ease-in-out;
     border: none;
 }
 
-.RegistrationForm button:hover {
+.register-container form button:hover {
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.15);
     transform: scale(1.02);
 }
 
-/* Ensure consistent styling for the Paper component */
-.MuiPaper-root {
-    background: var(--background);
+.circle {
+    width: 8rem;
+    height: 8rem;
+    background: var(--primary-color);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.illustration {
+    position: absolute;
+    top: -14%;
+    right: -2px;
+    width: 90%;
+}
+
+.circle-one {
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transform: translate(-45%, -45%);
+}
+
+.circle-two {
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    transform: translate(45%, 45%);
+}
+
+.register-forget {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.opacity {
+    opacity: 0.6;
+}
+
+.theme-btn-container {
+    position: absolute;
+    left: 0;
+    bottom: 2rem;
+}
+
+.theme-btn {
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.theme-btn:hover {
+    width: 40px !important;
+}
+
+@keyframes wobble {
+    0% {
+        transform: scale(1.025);
+    }
+    25% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(1.025);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
